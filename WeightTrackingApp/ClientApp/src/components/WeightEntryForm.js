@@ -6,7 +6,8 @@ import { SingleDatePicker } from "react-dates";
 export default class WeightEntryForm extends React.Component{
     
     state = {
-        date : moment()
+        date : moment(),
+        calendarFocused: false
     };
     
     onSubmit = (e) => {
@@ -14,6 +15,9 @@ export default class WeightEntryForm extends React.Component{
         console.log(e.target.weight.value);
         console.log(e.target.notes.value);
     };
+    
+    handleOnDateChange = (date) => this.setState({ date });
+    handleOnFocusedChange = ({ focused }) => this.setState({ calendarFocused: focused })
     
     render() {
         return(
@@ -35,7 +39,11 @@ export default class WeightEntryForm extends React.Component{
                     </div>
                     <div className="form-group">
                         <SingleDatePicker
-                        
+                            date={this.state.date}
+                            onDateChange={this.handleOnDateChange}
+                            focused={this.state.calendarFocused}
+                            onFocusChange={this.handleOnFocusedChange}
+                            numberOfMonths = {1}
                         />
                     </div>
                     <button className="btn btn-primary" type="submit">Submit</button>
