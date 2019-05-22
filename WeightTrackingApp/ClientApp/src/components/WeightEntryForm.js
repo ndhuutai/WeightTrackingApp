@@ -10,7 +10,7 @@ export default class WeightEntryForm extends React.Component{
         calendarFocused: false,
         size: undefined
     };
-    
+    //TODO: add actions and reducers to send submitted form data to store and send the same data to web api
     componentDidMount() {
         window.onresize = this.resize;
     }

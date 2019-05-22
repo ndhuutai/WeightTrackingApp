@@ -20,12 +20,9 @@
     <Content Include="ClientApp\src\actions\WeightEntry.js" />
     <Content Include="ClientApp\src\components\WeighData.js" />
     <Content Include="ClientApp\src\components\WeightEntryForm.js" />
+    <Content Include="ClientApp\src\reducers\WeightEntries.js" />
     <None Remove="$(SpaRoot)**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="ClientApp\src\reducers" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
