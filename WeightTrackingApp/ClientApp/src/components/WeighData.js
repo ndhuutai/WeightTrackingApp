@@ -1,8 +1,7 @@
 import React from 'react';
-import {Redirect} from "react-router-dom";
 import {connect} from "react-redux";
-import WeightEntriesTable from "./WeightEntriesTable";
 import {Icon} from "semantic-ui-react";
+import WeightEntriesTable from "./WeightEntriesTable";
 
 
 class WeighData extends React.Component{
@@ -15,7 +14,7 @@ class WeighData extends React.Component{
     render() {
         return (
             <div>
-                <WeightEntriesTable/>
+                <WeightEntriesTable {...this.props}/>
                 <button 
                     onClick={this.onClick}
                     type="button"
@@ -29,4 +28,9 @@ class WeighData extends React.Component{
     }
 }
 
-export default connect()(WeighData);
+const mapStateToProps = (state) => ({
+    entries: state.entries
+});
+
+
+export default connect(mapStateToProps)(WeighData);

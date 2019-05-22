@@ -1,8 +1,11 @@
 import React from 'react';
 import moment from 'moment';
 import { SingleDatePicker } from "react-dates";
-import { Dropdown } from "semantic-ui-react";
+import { Input } from "semantic-ui-react";
 import 'semantic-ui-css/components/dropdown.css'
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+
 
 import {addEntry} from "../actions/WeightEntry";
 
@@ -15,12 +18,13 @@ const dummySelections =[
 ]
     
 
-export default class WeightEntryForm extends React.Component{
+class WeightEntryForm extends React.Component{
     
     state = {
         date : moment(),
         calendarFocused: false,
-        size: undefined
+        size: undefined,
+        entry: undefined
     };
     //TODO: add actions and reducers to send submitted form data to store and send the same data to web api
     componentDidMount() {
@@ -33,13 +37,21 @@ export default class WeightEntryForm extends React.Component{
 
     onSubmit = (e) => {
         e.preventDefault();
-        console.log(e.target.weight.value);
-        console.log(e.target.notes.value);
+        this.props.addEntry({
+            date: this.state.date,
+            weight: e.target.weight.value,
+            program: e.target.program.value,
+            notes: e.target.notes.value
+        });
         this.props.history.replace('/weight-data');
     };
     
     handleOnDateChange = (date) => this.setState({ date });
     handleOnFocusedChange = ({ focused }) => this.setState({ calendarFocused: focused });
+    
+    handleOnDropDownChange = (e, {value}) => {
+      console.log(value);
+    };
     
     render() {
         return(
@@ -70,15 +82,18 @@ export default class WeightEntryForm extends React.Component{
                             <label >Notes</label>
                             <textarea  className="form-control" name="notes" placeholder="Add your notes"/>
                         </div>
-                        <div className="col">
+                        <div className="form-group col">
                             <label>Program</label>
-                            <Dropdown
-                                placeholder="Select Program"
-                                fluid
-                                search
-                                selection
-                                options={dummySelections}
-                            />
+                            
+                            {/*<Dropdown*/}
+                            {/*    placeholder="Select Program"*/}
+                            {/*    fluid*/}
+                            {/*    search*/}
+                            {/*    selection*/}
+                            {/*    options={dummySelections}*/}
+                            {/*    onChange={this.handleOnDropDownChange}*/}
+                            {/*/>*/}
+                            <input type="text" className="form-control" name="program" placeholder="Add your program"/>
                         </div>
                         
                     </div>
@@ -90,3 +105,7 @@ export default class WeightEntryForm extends React.Component{
         )
     }
 }
+const mapDispatchToProps = (dispatch) => bindActionCreators({addEntry},dispatch);
+
+
+export default connect(null,mapDispatchToProps)(WeightEntryForm);

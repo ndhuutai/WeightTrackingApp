@@ -8,3 +8,9 @@ export const addEntry = ({weight, notes, date, program}) => ({
         program
     }
 });
+
+export const startAddEntry = () => {
+    return (dispatch) => {
+        
+    }
+}
