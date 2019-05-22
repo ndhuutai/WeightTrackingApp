@@ -7,13 +7,24 @@ export default class WeightEntryForm extends React.Component{
     
     state = {
         date : moment(),
-        calendarFocused: false
+        calendarFocused: false,
+        size: undefined
     };
     
+    componentDidMount() {
+        window.onresize = this.resize;
+    }
+    
+    resize = () => {
+        console.log(document.getElementById('weight').offsetHeight);
+    };
+
     onSubmit = (e) => {
         e.preventDefault();
         console.log(e.target.weight.value);
         console.log(e.target.notes.value);
+        console.log(parseFloat(getComputedStyle(e.target).fontSize));
+        this.props.history.push('/weight-data');
     };
     
     handleOnDateChange = (date) => this.setState({ date });
@@ -26,25 +37,26 @@ export default class WeightEntryForm extends React.Component{
                     <div className="row">
                         <div className="form-group col">
                             <label htmlFor="weight">Weight</label>
-                            <input type="text" className="form-control" id="weight" name="weight" placeholder="Weight"/>
+                            <input type="text" className="form-control form-control-lg" id="weight" name="weight" placeholder="Weight"/>
                         </div>
                         <div className="form-group col">
-                            <label >Notes</label>
-                            <textarea  className="form-control" name="notes" placeholder="Add your notes"/>
+                            <label>Date:</label>
+                            <div>
+                                <SingleDatePicker
+                                    block={true}
+                                    date={this.state.date}
+                                    onDateChange={this.handleOnDateChange}
+                                    focused={this.state.calendarFocused}
+                                    onFocusChange={this.handleOnFocusedChange}
+                                    numberOfMonths = {1}
+                                />
+                            </div>
                         </div>
                     </div>
                     
                     <div className="form-group">
-                        <label>Date:</label>
-                    </div>
-                    <div className="form-group">
-                        <SingleDatePicker
-                            date={this.state.date}
-                            onDateChange={this.handleOnDateChange}
-                            focused={this.state.calendarFocused}
-                            onFocusChange={this.handleOnFocusedChange}
-                            numberOfMonths = {1}
-                        />
+                        <label >Notes</label>
+                        <textarea  className="form-control" name="notes" placeholder="Add your notes"/>
                     </div>
                     <button className="btn btn-primary" type="submit">Submit</button>
                 </form>
