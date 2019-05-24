@@ -9,7 +9,8 @@ namespace WeightTrackingApp.Models
         //get all entities from db context
         IEnumerable<TEntity> GetAll();
         //get an entity by ID (READ)
-        TEntity Get(Expression<Func<TEntity, bool>> predicate);
+        IEnumerable<TEntity> Get(Expression<Func<TEntity, bool>> predicate);
+        TEntity GetSingle(Expression<Func<TEntity, bool>> predicate);
         void Add(TEntity entity);
         void Update(TEntity dbEntity, TEntity entity);
         void Delete(TEntity entity);
