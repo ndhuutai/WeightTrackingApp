@@ -12,7 +12,7 @@ namespace WeightTrackingApp.Models
         IEnumerable<TEntity> Get(Expression<Func<TEntity, bool>> predicate);
         TEntity GetSingle(Expression<Func<TEntity, bool>> predicate);
         void Add(TEntity entity);
-        void Update(TEntity dbEntity, TEntity entity);
+        void Update(TEntity entity);
         void Delete(TEntity entity);
 
         int Commit();

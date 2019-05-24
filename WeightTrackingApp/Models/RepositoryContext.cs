@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore;
 
 namespace WeightTrackingApp.Models
 {
@@ -33,14 +34,15 @@ namespace WeightTrackingApp.Models
             _dbContext.Set<TEntity>().Add(entity);
         }
 
-        public void Update(TEntity dbEntity, TEntity entity)
+        public void Update(TEntity entity)
         {
-            
+            var trackedEntity = _dbContext.Set<TEntity>().Attach(entity);
+            trackedEntity.State = EntityState.Modified;
         }
 
         public void Delete(TEntity entity)
         {
-            throw new NotImplementedException();
+            _dbContext.Set<TEntity>().Remove(entity);
         }
         
         //save all tracked changes and return the number of entities.
