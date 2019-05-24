@@ -1,0 +1,17 @@
+using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
+
+namespace WeightTrackingApp.Models
+{
+    public interface IRepositoryContext<TEntity>
+    {
+        //get all entities from db context
+        IEnumerable<TEntity> GetAll();
+        //get an entity by ID (READ)
+        TEntity Get(Expression<Func<TEntity, bool>> predicate);
+        void Add(TEntity entity);
+        void Update(TEntity dbEntity, TEntity entity);
+        void Delete(TEntity entity);
+    }
+}
