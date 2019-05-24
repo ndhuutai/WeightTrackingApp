@@ -11,5 +11,8 @@ namespace WeightTrackingApp.Models
         public double Weight { get; set; }
         public DateTime DateTime { get; set; }
         public Note Note { get; set; }
+
+        public int ProgramId { get; set; }
+        public Program Program { get; set; }
     }
 }
