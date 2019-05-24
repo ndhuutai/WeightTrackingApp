@@ -9,5 +9,13 @@ namespace WeightTrackingApp.Models
         {
             
         }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<WeightEntry>()
+                .HasOne(s => s.Note)
+                .WithOne(n => n.WeightEntry)
+                .HasForeignKey<Note>(n => n.WeightEntryId);
+        }
     }
 }

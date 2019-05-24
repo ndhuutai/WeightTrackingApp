@@ -10,5 +10,6 @@ namespace WeightTrackingApp.Models
         [Range(0,1000)]
         public double Weight { get; set; }
         public DateTime DateTime { get; set; }
+        public Note Note { get; set; }
     }
 }
