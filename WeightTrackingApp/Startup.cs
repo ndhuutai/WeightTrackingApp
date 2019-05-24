@@ -23,7 +23,9 @@ namespace WeightTrackingApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-
+            services.AddScoped<IRepositoryContext<WeightEntry>, RepositoryContext<WeightEntry>>();
+            services.AddScoped<IRepositoryContext<Note>, RepositoryContext<Note>>();
+            services.AddScoped<IRepositoryContext<Program>, RepositoryContext<Program>>();
             services.AddDbContextPool<WeightTrackingDbContext>(
                 options =>
                 options.UseMySql(Configuration.GetConnectionString("WeightTrackingDb"))
