@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
 using WeightTrackingApp.Models;
 
 namespace WeightTrackingApp
@@ -22,10 +23,12 @@ namespace WeightTrackingApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-            services.AddScoped<IRepositoryContext<WeightEntry>, RepositoryContext<WeightEntry>>();
-            services.AddScoped<IRepositoryContext<Note>, RepositoryContext<Note>>();
-            services.AddScoped<IRepositoryContext<Program>, RepositoryContext<Program>>();
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
+                .AddJsonOptions(options =>
+                    {
+                        options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                    });
+            services.AddScoped<IDataRepository<WeightEntry>, WeightEntriesRepository>();
             services.AddDbContextPool<WeightTrackingDbContext>(
                 options =>
                 options.UseMySql(Configuration.GetConnectionString("WeightTrackingDb"))
