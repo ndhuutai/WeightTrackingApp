@@ -13,22 +13,23 @@ namespace WeightTrackingApp.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Program>()
+                .HasMany<WeightEntry>(p => p.WeightEntries)
+                .WithOne(w => w.Program)
+                .HasForeignKey(w => w.ProgramId);
+                
             //specified foreign key due to 1 to 1 relationship
             modelBuilder.Entity<WeightEntry>()
                 .HasOne(w => w.Note)
                 .WithOne(n => n.WeightEntry)
                 .HasForeignKey<Note>(n => n.WeightEntryId);
 
-            modelBuilder.Entity<Note>()
-                .HasOne(n => n.WeightEntry)
-                .WithOne(w => w.Note)
-                .HasForeignKey<WeightEntry>(n => n.ProgramId);
+//            modelBuilder.Entity<Note>()
+//                .HasOne(n => n.WeightEntry)
+//                .WithOne(w => w.Note)
+//                .HasForeignKey<WeightEntry>(n => n.);
             
-            //foreign key is optional but doing it here anyways
-            modelBuilder.Entity<WeightEntry>()
-                .HasOne(w => w.Program)
-                .WithMany(p => p.WeightEntries)
-                .HasForeignKey(w => w.ProgramId);
+                
 
             modelBuilder.Entity<Program>()
                 .HasData(new

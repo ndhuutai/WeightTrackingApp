@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Data;
 
 namespace WeightTrackingApp.Models
 {
@@ -8,6 +9,6 @@ namespace WeightTrackingApp.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public string Name { get; set; }
-        public IEnumerable<WeightEntry> WeightEntries { get; set; }
+        public List<WeightEntry> WeightEntries { get; set; }
     }
 }

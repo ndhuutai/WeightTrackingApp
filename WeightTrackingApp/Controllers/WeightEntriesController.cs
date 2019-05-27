@@ -36,11 +36,34 @@ namespace WeightTrackingApp.Controllers
             {
                 return BadRequest();
             }
-            
-            _dataRepository.Add(entry);
-            _dataRepository.Commit();
+
+            //if add op is not success
+            if (!_dataRepository.Add(entry))
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Database Failure");
+            }
 
             return Created("/", entry);
+        }
+
+        [HttpPut]
+        public IActionResult PutEntry(WeightEntry entry)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            _dataRepository.Update(entry);
+
+            return Accepted();
+        }
+
+        public IActionResult DeleteEntry(WeightEntry entry)
+        {
+            _dataRepository.Delete(entry);
+
+            return Ok();
         }
     }
 }

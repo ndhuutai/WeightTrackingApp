@@ -11,10 +11,8 @@ namespace WeightTrackingApp.Models
         //get an entity by ID (READ)
         IEnumerable<TEntity> GetByProgram(string program);
         
-        void Add(TEntity entity);
-        void Update(TEntity entity);
-        void Delete(TEntity entity);
-
-        int Commit();
+        bool Add(TEntity entity);
+        bool Update(TEntity entity);
+        bool Delete(TEntity entity);
     }
 }
