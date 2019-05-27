@@ -7,7 +7,7 @@ export default (state = defaultState, action) => {
             return [
                 ...state,
                 action.entry
-            ]
+            ];
         default:
             return [
                 ...state

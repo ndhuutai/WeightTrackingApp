@@ -15,11 +15,11 @@ export default ({entries}) => (
           <tbody>
           {entries.map((entry, index) => 
               <tr key={index}>
-                  <td>{index + 1}</td>
+                  <td>{entry.id}</td>
                   <td>{entry.weight}</td>
                   <td>{entry.date.format('MM/DD/YYYY')}</td>
                   <td>{entry.program}</td>
-                  <td>{entry.notes}</td>
+                  <td>{entry.note}</td>
               </tr>
           )}
           </tbody>

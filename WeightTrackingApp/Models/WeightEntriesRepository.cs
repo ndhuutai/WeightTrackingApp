@@ -34,7 +34,7 @@ namespace WeightTrackingApp.Models
                 .ToList();
         }
 
-        public bool Add(WeightEntry entity)
+        public WeightEntry Add(WeightEntry entity)
         {
             // find existing program in db
             var program = _dbContext.Programs.FirstOrDefault(p => String.Equals(p.Name, entity.Program.Name));
@@ -48,19 +48,19 @@ namespace WeightTrackingApp.Models
             }
 
             //get tracked entity
-            var entry = _dbContext.WeightEntries.Add(entity);
+            var trackedEntity = _dbContext.WeightEntries.Add(entity);
             
             //save here to get generatedid for the entry
             if (_dbContext.SaveChanges() < 1)
             {
-                return false;
+                return null;
             }
             
             //update note's info once entity's id has been populated.
-            entry.Entity.Note.WeightEntryId = entity.Id;
+            trackedEntity.Entity.Note.WeightEntryId = entity.Id;
             
             _dbContext.SaveChanges();
-            return true;
+            return trackedEntity.Entity;
         }
 
         public bool Update(WeightEntry entity)

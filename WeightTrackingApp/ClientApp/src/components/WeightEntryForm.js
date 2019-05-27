@@ -7,15 +7,15 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
 
-import {addEntry} from "../actions/WeightEntry";
+import {startAddEntry} from "../actions/WeightEntry";
 
 
-const dummySelections =[
+const dummySelections = [
     {key: 'program1', value: 'program1', text:'program 1'},
     {key: 'program2', value: 'program2', text:'program 2'},
     {key: 'program3', value: 'program3', text:'program 3'},
     {key: 'program4', value: 'program4', text:'program 4'},
-]
+];
     
 
 class WeightEntryForm extends React.Component{
@@ -37,11 +37,11 @@ class WeightEntryForm extends React.Component{
 
     onSubmit = (e) => {
         e.preventDefault();
-        this.props.addEntry({
+        this.props.startAddEntry({
             date: this.state.date,
             weight: e.target.weight.value,
             program: e.target.program.value,
-            notes: e.target.notes.value
+            note: e.target.note.value
         });
         this.props.history.replace('/weight-data');
     };
@@ -79,8 +79,8 @@ class WeightEntryForm extends React.Component{
                     
                     <div className="row justify-content-center">
                         <div className="form-group col">
-                            <label >Notes</label>
-                            <textarea  className="form-control" name="notes" placeholder="Add your notes"/>
+                            <label >Note</label>
+                            <textarea  className="form-control" name="note" placeholder="Add your notes"/>
                         </div>
                         <div className="form-group col">
                             <label>Program</label>
@@ -105,7 +105,10 @@ class WeightEntryForm extends React.Component{
         )
     }
 }
-const mapDispatchToProps = (dispatch) => bindActionCreators({addEntry},dispatch);
+const mapDispatchToProps = (dispatch) => bindActionCreators({startAddEntry},dispatch);
 
+const mapStateToProps = (state) => ({
+    entries: state.entries
+});
 
-export default connect(null,mapDispatchToProps)(WeightEntryForm);
+export default connect(mapStateToProps,mapDispatchToProps)(WeightEntryForm);

@@ -23,7 +23,7 @@ namespace WeightTrackingApp.Controllers
             return _dataRepository.GetAll();
         }
         
-        [HttpGet]
+        [HttpGet("{program}")]
         public IEnumerable<WeightEntry> GetByProgram(string program)
         {
             return _dataRepository.GetByProgram(program);
@@ -37,13 +37,14 @@ namespace WeightTrackingApp.Controllers
                 return BadRequest();
             }
 
+            var savedEntry = _dataRepository.Add(entry);
             //if add op is not success
-            if (!_dataRepository.Add(entry))
+            if ( savedEntry == null)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, "Database Failure");
             }
 
-            return Created("/", entry);
+            return Created("/", savedEntry);
         }
 
         [HttpPut]
@@ -59,6 +60,7 @@ namespace WeightTrackingApp.Controllers
             return Accepted();
         }
 
+        [HttpDelete]
         public IActionResult DeleteEntry(WeightEntry entry)
         {
             _dataRepository.Delete(entry);
