@@ -81,7 +81,7 @@ class WeightEntryForm extends React.Component{
                     <div className="row justify-content-center">
                         <div className="form-group col">
                             <label >Note</label>
-                            <textarea  className="form-control" name="note" placeholder="Add your notes" defaultValue={}/>
+                            <textarea  className="form-control" name="note" placeholder="Add your notes" defaultValue={this.state.note}/>
                         </div>
                         <div className="form-group col">
                             <label>Program</label>
