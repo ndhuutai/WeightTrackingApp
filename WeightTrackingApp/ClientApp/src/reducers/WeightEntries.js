@@ -8,6 +8,10 @@ export default (state = defaultState, action) => {
                 ...state,
                 action.entry
             ];
+        case 'SET_ENTRIES':
+            return [
+                ...action.entries
+            ]
         default:
             return [
                 ...state

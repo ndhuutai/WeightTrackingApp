@@ -3,6 +3,8 @@ import {connect} from "react-redux";
 import {Icon} from "semantic-ui-react";
 import axios from 'axios';
 import WeightEntriesTable from "./WeightEntriesTable";
+import {bindActionCreators} from "redux";
+import {setEntries} from "../actions/WeightEntry";
 
 
 
@@ -10,7 +12,8 @@ class WeighData extends React.Component{
     
     componentDidMount() {
         axios.get('/api/weightentries')
-            .then(response => console.log(response));
+            .then(response => this.props.setEntries(response.data))
+            .catch(err => console.log(err));
     }
 
     onClick = () => {
@@ -39,5 +42,7 @@ const mapStateToProps = (state) => ({
     entries: state.entries
 });
 
+const mapDispatchToProps = (dispatch) => bindActionCreators({setEntries}, dispatch);
 
-export default connect(mapStateToProps)(WeighData);
+
+export default connect(mapStateToProps, mapDispatchToProps)(WeighData);

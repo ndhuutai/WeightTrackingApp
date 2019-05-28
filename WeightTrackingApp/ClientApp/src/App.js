@@ -13,6 +13,6 @@ export default () => (
     <Route path='/counter' component={Counter} />
     <Route path='/fetch-data/:startDateIndex?' component={FetchData} />
     <Route path='/weight-data' component={WeightData}/>
-    <Route path='/weight-entry-form' component={WeightEntryForm} />
+    <Route path='/weight-entry-form/:id' component={WeightEntryForm} />
   </Layout>
 );

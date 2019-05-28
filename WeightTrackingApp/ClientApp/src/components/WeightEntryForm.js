@@ -10,24 +10,18 @@ import { bindActionCreators } from "redux";
 import {startAddEntry} from "../actions/WeightEntry";
 
 
-const dummySelections = [
-    {key: 'program1', value: 'program1', text:'program 1'},
-    {key: 'program2', value: 'program2', text:'program 2'},
-    {key: 'program3', value: 'program3', text:'program 3'},
-    {key: 'program4', value: 'program4', text:'program 4'},
-];
-    
-
 class WeightEntryForm extends React.Component{
     
     state = {
-        date : moment(),
+        date : this.props.entry? moment(this.props.entry.date): moment(),
+        note: this.props.entry? this.props.entry.note: '',
+        weight: this.props.entry? this.props.entry.weight: '', //may need to change initial value when form validation is in use
+        program: this.props.entry? this.props.entry.program: '',
         calendarFocused: false,
-        size: undefined,
-        entry: undefined
     };
     //TODO: add actions and reducers to send submitted form data to store and send the same data to web api
     componentDidMount() {
+        console.log('this fired first');
         window.onresize = this.resize;
     }
     
@@ -60,7 +54,13 @@ class WeightEntryForm extends React.Component{
                     <div className="row">
                         <div className="form-group col">
                             <label htmlFor="weight">Weight</label>
-                            <input type="text" className="form-control form-control-lg" id="weight" name="weight" placeholder="Weight"/>
+                            <input 
+                                type="text" 
+                                className="form-control form-control-lg" 
+                                id="weight" 
+                                name="weight" 
+                                defaultValue={this.state.weight}
+                                placeholder="Weight"/>
                         </div>
                         <div className="form-group col">
                             <label>Date:</label>
@@ -72,6 +72,7 @@ class WeightEntryForm extends React.Component{
                                     focused={this.state.calendarFocused}
                                     onFocusChange={this.handleOnFocusedChange}
                                     numberOfMonths = {1}
+                                    isOutsideRange = {() => false}
                                 />
                             </div>
                         </div>
@@ -84,15 +85,6 @@ class WeightEntryForm extends React.Component{
                         </div>
                         <div className="form-group col">
                             <label>Program</label>
-                            
-                            {/*<Dropdown*/}
-                            {/*    placeholder="Select Program"*/}
-                            {/*    fluid*/}
-                            {/*    search*/}
-                            {/*    selection*/}
-                            {/*    options={dummySelections}*/}
-                            {/*    onChange={this.handleOnDropDownChange}*/}
-                            {/*/>*/}
                             <input type="text" className="form-control" name="program" placeholder="Add your program"/>
                         </div>
                         
@@ -107,8 +99,8 @@ class WeightEntryForm extends React.Component{
 }
 const mapDispatchToProps = (dispatch) => bindActionCreators({startAddEntry},dispatch);
 
-const mapStateToProps = (state) => ({
-    entries: state.entries
-});
+const mapStateToProps = (state, props) => ({
+    entry: state.entries.find(entry => entry.id == props.match.params.id)
+})
 
 export default connect(mapStateToProps,mapDispatchToProps)(WeightEntryForm);

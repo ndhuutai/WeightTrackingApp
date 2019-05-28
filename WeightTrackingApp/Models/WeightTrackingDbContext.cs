@@ -51,7 +51,7 @@ namespace WeightTrackingApp.Models
                 {
                     Id = 1,
                     Weight = (double)140,
-                    DateTime = new DateTime(2019,05,24),
+                    Date = new DateTime(2019,05,24),
                     NoteId = 1,
                     ProgramId = 1
                 });
