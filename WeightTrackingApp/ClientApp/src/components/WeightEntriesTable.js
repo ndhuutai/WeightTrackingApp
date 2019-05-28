@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 
 export default ({entries}) => (
   <div className="table-responsive">
-      <table className="table table-dark  table-hover">
+      <table className="table table-dark table-hover">
           <thead>
           <tr>
               <th>No.</th>
