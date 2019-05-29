@@ -1,11 +1,10 @@
 import React from 'react';
 import moment from 'moment';
 import {Button, Icon} from "semantic-ui-react";
-
 import { Link } from "react-router-dom";
 
 
-export default ({entries}) => (
+export default ({entries, onDelete}) => (
   <div className="table-responsive">
       <table className="table table-dark table-hover">
           <thead>
@@ -21,7 +20,7 @@ export default ({entries}) => (
           <tbody>
           {entries.map((entry, index) => 
               <tr key={index}>
-                  <td>{entry.id}</td>
+                  <td>{index + 1 }</td>
                   <td>{entry.weight}</td>
                   <td>{moment(entry.date).format('MM/DD/YYYY')}</td>
                   <td>{entry.program.name || entry.program}</td>
@@ -35,7 +34,7 @@ export default ({entries}) => (
                               </Button.Content>
                           </Button>
                       </Link>
-                      <Button animated compact size="tiny">
+                      <Button animated compact size="tiny" onClick={() => onDelete(entry.id)}>
                           <Button.Content visible>Delete</Button.Content>
                           <Button.Content hidden>
                               <Icon name="delete"/>

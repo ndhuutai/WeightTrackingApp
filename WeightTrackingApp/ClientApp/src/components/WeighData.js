@@ -4,7 +4,7 @@ import {Icon} from "semantic-ui-react";
 import axios from 'axios';
 import WeightEntriesTable from "./WeightEntriesTable";
 import {bindActionCreators} from "redux";
-import {setEntries} from "../actions/WeightEntry";
+import {setEntries, startDeleteEntry} from "../actions/WeightEntry";
 
 
 
@@ -20,18 +20,21 @@ class WeighData extends React.Component{
         this.props.history.push('/weight-entry-form');
     };
     
+    //getting the id from the table
+    handleOnDelete = (id) => {
+        this.props.startDeleteEntry(id);
+    };
+    
     render() {
         return (
             <div>
-                <WeightEntriesTable {...this.props}/>
+                <WeightEntriesTable {...this.props} onDelete={this.handleOnDelete}/>
                 <button 
                     onClick={this.onClick}
                     type="button"
                     className="btn btn-primary"
                 >
                     <Icon name='plus square'/>Add Entry</button>
-                
-                
             </div>
         )
     }
@@ -41,7 +44,7 @@ const mapStateToProps = (state) => ({
     entries: state.entries
 });
 
-const mapDispatchToProps = (dispatch) => bindActionCreators({setEntries}, dispatch);
+const mapDispatchToProps = (dispatch) => bindActionCreators({setEntries, startDeleteEntry}, dispatch);
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(WeighData);

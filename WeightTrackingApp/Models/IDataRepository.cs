@@ -13,6 +13,6 @@ namespace WeightTrackingApp.Models
         
         TEntity Add(TEntity entity);
         bool Update(TEntity entity);
-        bool Delete(TEntity entity);
+        bool Delete(int id);
     }
 }

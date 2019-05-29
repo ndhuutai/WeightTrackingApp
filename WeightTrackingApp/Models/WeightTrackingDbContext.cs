@@ -24,6 +24,7 @@ namespace WeightTrackingApp.Models
                 .WithOne(n => n.WeightEntry)
                 .HasForeignKey<Note>(n => n.WeightEntryId);
 
+                
 //            modelBuilder.Entity<Note>()
 //                .HasOne(n => n.WeightEntry)
 //                .WithOne(w => w.Note)
@@ -55,8 +56,6 @@ namespace WeightTrackingApp.Models
                     NoteId = 1,
                     ProgramId = 1
                 });
-            
-            
         }
 
         public DbSet<Program> Programs { get; set; }

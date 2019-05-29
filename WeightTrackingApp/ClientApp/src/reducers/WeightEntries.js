@@ -9,16 +9,14 @@ export default (state = defaultState, action) => {
                 action.entry
             ];
         case 'EDIT_ENTRY':
-            let test = state.map(entry => {
-                console.log(entry);
-                console.log(action.entry);
+            return state.map(entry => {
                 if(entry.id === action.entry.id) {
                     return action.entry
                 }
                 return entry;
             });
-            console.log(test);
-            return test;
+        case 'DELETE_ENTRY':
+            return state.filter(entry => entry.id !== action.id);
         case 'SET_ENTRIES':
             return [
                 ...action.entries

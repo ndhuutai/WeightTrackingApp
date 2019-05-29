@@ -60,10 +60,10 @@ namespace WeightTrackingApp.Controllers
             return Accepted();
         }
 
-        [HttpDelete]
-        public IActionResult DeleteEntry(WeightEntry entry)
+        [HttpDelete("{id}")]
+        public IActionResult DeleteEntry(int id)
         {
-            _dataRepository.Delete(entry);
+            _dataRepository.Delete(id);
 
             return Ok();
         }

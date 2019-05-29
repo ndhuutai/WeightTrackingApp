@@ -89,9 +89,9 @@ namespace WeightTrackingApp.Models
             return true;
         }
 
-        public bool Delete(WeightEntry entity)
+        public bool Delete(int id)
         {
-             var dbEntity = _dbContext.WeightEntries.FirstOrDefault(w => w.Id == entity.Id);
+             var dbEntity = _dbContext.WeightEntries.FirstOrDefault(w => w.Id == id);
 
              if (dbEntity == null) return false;
 

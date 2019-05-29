@@ -28,9 +28,9 @@ export const setEntries = (entries) => ({
     entries
 });
 
-export const setCurrentEntry = (entry) => ({
-   type: 'SET_CURRENT_ENTRY',
-   entry 
+export const deleteEntry = (id) => ({
+   type: 'DELETE_ENTRY',
+   id 
 });
 
 export const startAddEntry = ({weight, note, date, program}) => {
@@ -65,5 +65,17 @@ export const startEditEntry = ({id, weight, note, date, program}) => {
         });
         dispatch(editEntry({id, weight, note, date, program}));
     }
+};
+
+export const startDeleteEntry = (id) => {
+    return async (dispatch) => {
+        await axios.delete(`/api/weightentries/${id}`, {
+            method: 'delete',
+        });
+        
+        dispatch(deleteEntry(id));
+    }
 }
+
+
 
