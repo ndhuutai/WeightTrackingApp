@@ -28,13 +28,19 @@ export default ({entries}) => (
                   <td>{entry.note.text || entry.note}</td>
                   <td>
                       <Link to={`/weight-entry-form/${entry.id}`}>
-                          <Button animated compact size="mini">
+                          <Button animated compact size="tiny">
                               <Button.Content visible>Edit</Button.Content>
                               <Button.Content hidden>
                                   <Icon name="edit"/>
                               </Button.Content>
                           </Button>
                       </Link>
+                      <Button animated compact size="tiny">
+                          <Button.Content visible>Delete</Button.Content>
+                          <Button.Content hidden>
+                              <Icon name="delete"/>
+                          </Button.Content>
+                      </Button>
                   </td>
               </tr>
           )}

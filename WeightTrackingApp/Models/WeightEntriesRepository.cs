@@ -83,8 +83,8 @@ namespace WeightTrackingApp.Models
                 dbEntity.ProgramId = entity.ProgramId;
                 dbEntity.Program = entity.Program;
             }
-            //user shouldn't be able to change date
 
+            //user shouldn't be able to change date
             _dbContext.SaveChanges();
             return true;
         }

@@ -18,7 +18,6 @@ class WeighData extends React.Component{
 
     onClick = () => {
         this.props.history.push('/weight-entry-form');
-        console.log(this.props.history);
     };
     
     render() {
