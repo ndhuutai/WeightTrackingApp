@@ -51,6 +51,7 @@ export const startAddEntry = ({weight, note, date, program}) => {
 };
 
 export const startEditEntry = ({id, weight, note, date, program}) => {
+    console.log(id, weight, note , program);
     return async (dispatch) => {
         let response = await axios.put('/api/weightentries', {
             id,
@@ -75,7 +76,7 @@ export const startDeleteEntry = (id) => {
         
         dispatch(deleteEntry(id));
     }
-}
+};
 
 
 

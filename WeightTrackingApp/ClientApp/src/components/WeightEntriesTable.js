@@ -23,8 +23,8 @@ export default ({entries, onDelete}) => (
                   <td>{index + 1 }</td>
                   <td>{entry.weight}</td>
                   <td>{moment(entry.date).format('MM/DD/YYYY')}</td>
-                  <td>{entry.program.name || entry.program}</td>
-                  <td>{entry.note.text || entry.note}</td>
+                  <td>{entry.program.name}</td>
+                  <td>{entry.note.text}</td>
                   <td>
                       <Link to={`/weight-entry-form/${entry.id}`}>
                           <Button animated compact size="tiny">

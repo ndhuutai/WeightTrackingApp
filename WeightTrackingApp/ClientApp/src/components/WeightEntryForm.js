@@ -15,10 +15,10 @@ class WeightEntryForm extends React.Component{
         type: this.props.entry? 'Edit': 'Create',
         id: this.props.entry? this.props.entry.id: undefined,
         date : this.props.entry? moment(this.props.entry.date): moment(),
-        note: this.props.entry? this.props.entry.note: '',
-        weight: this.props.entry? this.props.entry.weight: '', //may need to change initial value when form validation is in use
-        program: this.props.entry? this.props.entry.program: '',
-        calendarFocused: false,
+        note: this.props.entry? this.props.entry.note.text: '',
+        weight: this.props.entry? this.props.entry.weight: '',
+        program: this.props.entry? this.props.entry.program.name: '',
+        calendarFocused: false
     };
     //TODO: add actions and reducers to send submitted form data to store and send the same data to web api
 
@@ -34,7 +34,7 @@ class WeightEntryForm extends React.Component{
             });
         } else {
             this.props.startEditEntry({
-                id : this.state.id,
+                id : this.props.entry.id,
                 date: this.state.date,
                 weight: e.target.weight.value,
                 program: e.target.program.value,
@@ -48,10 +48,7 @@ class WeightEntryForm extends React.Component{
     handleOnDateChange = (date) => this.setState({ date });
     handleOnFocusedChange = ({ focused }) => this.setState({ calendarFocused: focused });
     
-    handleOnDropDownChange = (e, {value}) => {
-      console.log(value);
-    };
-    
+
     render() {
         return(
             <div>
@@ -86,11 +83,11 @@ class WeightEntryForm extends React.Component{
                     <div className="row justify-content-center">
                         <div className="form-group col">
                             <label >Note</label>
-                            <textarea  className="form-control" name="note" placeholder="Add your notes" defaultValue={this.state.note.text}/>
+                            <textarea  className="form-control" name="note" placeholder="Add your notes" defaultValue={this.state.note}/>
                         </div>
                         <div className="form-group col">
                             <label>Program</label>
-                            <input type="text" className="form-control" name="program" placeholder="Add your program" defaultValue={this.state.program.name}/>
+                            <input type="text" className="form-control" name="program" placeholder="Add your program" defaultValue={this.state.program}/>
                         </div>
                     </div>
                     
@@ -102,8 +99,12 @@ class WeightEntryForm extends React.Component{
 }
 const mapDispatchToProps = (dispatch) => bindActionCreators({startAddEntry, startEditEntry},dispatch);
 
-const mapStateToProps = (state, props) => ({
-    entry: state.entries.find(entry => entry.id == props.match.params.id) // probably need to redo model or parse to make this strongly-typed
-});
+const mapStateToProps = (state, props) => {
+    console.log('fired');
+    return {
+        entry: state.entries.find(entry => entry.id == props.match.params.id) // probably need to redo model or parse to make this strongly-typed
+    }
+    
+};
 
 export default connect(mapStateToProps,mapDispatchToProps)(WeightEntryForm);

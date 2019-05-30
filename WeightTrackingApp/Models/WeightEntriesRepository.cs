@@ -80,10 +80,10 @@ namespace WeightTrackingApp.Models
 
             if (program == null)
             {
-                dbEntity.ProgramId = entity.ProgramId;
-                dbEntity.Program = entity.Program;
+                var trackedEntity = _dbContext.Programs.Add(entity.Program);
+                dbEntity.Program = trackedEntity.Entity;
             }
-
+            
             //user shouldn't be able to change date
             _dbContext.SaveChanges();
             return true;

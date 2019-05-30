@@ -6,12 +6,32 @@ export default (state = defaultState, action) => {
         case 'ADD_ENTRY':
             return [
                 ...state,
-                action.entry
+                {
+                    id : action.entry.id,
+                    weight: action.entry.weight,
+                    note: {
+                        text: action.entry.note
+                    },
+                    date: action.entry.date,
+                    program: {
+                        name: action.entry.program
+                    }
+                }
             ];
         case 'EDIT_ENTRY':
             return state.map(entry => {
                 if(entry.id === action.entry.id) {
-                    return action.entry
+                    return {
+                        id : action.entry.id,
+                        weight: action.entry.weight,
+                        note: {
+                            text: action.entry.note
+                        },
+                        date: action.entry.date,
+                        program: {
+                            name: action.entry.program
+                        }
+                    }
                 }
                 return entry;
             });
