@@ -4,6 +4,7 @@ import { SingleDatePicker } from "react-dates";
 import 'semantic-ui-css/components/dropdown.css'
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
+import {Form, Field} from 'react-final-form';
 
 
 import {startAddEntry, startEditEntry} from "../actions/WeightEntry";
@@ -12,6 +13,7 @@ import {startAddEntry, startEditEntry} from "../actions/WeightEntry";
 class WeightEntryForm extends React.Component{
     
     state = {
+        //populate data when entry editing existing entry
         type: this.props.entry? 'Edit': 'Create',
         id: this.props.entry? this.props.entry.id: undefined,
         date : this.props.entry? moment(this.props.entry.date): moment(),
@@ -22,23 +24,29 @@ class WeightEntryForm extends React.Component{
     };
     //TODO: add actions and reducers to send submitted form data to store and send the same data to web api
 
+    onSubmitNewFormType = (e) => {
+        //an object containing values from final form
+        console.log(e);
+    };
+    
     onSubmit = (e) => {
         e.preventDefault();
+        let entry = {
+            date: this.state.date,
+            weight: e.target.weight.value,
+            program: e.target.program.value,
+            note: e.target.note.value
+        };
+        
         
         if(this.state.type === 'Create') {
             this.props.startAddEntry({
-                date: this.state.date,
-                weight: e.target.weight.value,
-                program: e.target.program.value,
-                note: e.target.note.value
+                ...entry
             });
         } else {
             this.props.startEditEntry({
                 id : this.props.entry.id,
-                date: this.state.date,
-                weight: e.target.weight.value,
-                program: e.target.program.value,
-                note: e.target.note.value
+                ...entry
             })
         }
         
@@ -48,51 +56,81 @@ class WeightEntryForm extends React.Component{
     handleOnDateChange = (date) => this.setState({ date });
     handleOnFocusedChange = ({ focused }) => this.setState({ calendarFocused: focused });
     
+    
+    mustBeNumber = value => 
+        isNaN(value)?`Should be a number`: undefined;
 
     render() {
         return(
             <div>
-                <form onSubmit={this.onSubmit}>
-                    <div className="row">
-                        <div className="form-group col">
-                            <label htmlFor="weight">Weight</label>
-                            <input 
-                                type="text" 
-                                className="form-control form-control-lg" 
-                                id="weight" 
-                                name="weight" 
-                                defaultValue={this.state.weight}
-                                placeholder="Weight"/>
-                        </div>
-                        <div className="form-group col">
-                            <label>Date:</label>
-                            <div>
-                                <SingleDatePicker
-                                    block={true}
-                                    date={this.state.date}
-                                    onDateChange={this.handleOnDateChange}
-                                    focused={this.state.calendarFocused}
-                                    onFocusChange={this.handleOnFocusedChange}
-                                    numberOfMonths = {1}
-                                    isOutsideRange = {() => false}
-                                />
+                <Form
+                    onSubmit={this.onSubmitNewFormType}
+                    render={({ handleSubmit, pristine, invalid }) => (
+                        <form onSubmit={handleSubmit}>
+                            <div className="row">
+                                <div className="form-group col">
+                                    <Field name="weight"
+                                           validate={this.mustBeNumber}
+                                    >
+                                        {({ input, meta}) => (
+                                            <div>
+                                                <label>Weight</label>
+                                                <input
+                                                    type="text"
+                                                    {...input}
+                                                    className="form-control form-control-lg"
+                                                    // defaultValue={this.state.weight}
+                                                    placeholder="Weight"/>
+                                                {meta.touched && meta.error && <div className="alert alert-danger">{meta.error}</div>}
+                                            </div>
+                                        )}
+                                    </Field>
+                                </div>
+                                <div className="form-group col">
+                                    <Field name="date">
+                                        {() => (
+                                            <div>
+                                                <label>Date:</label>
+                                                <div>
+                                                    <SingleDatePicker
+                                                        block={true}
+                                                        date={this.state.date}
+                                                        onDateChange={this.handleOnDateChange}
+                                                        focused={this.state.calendarFocused}
+                                                        onFocusChange={this.handleOnFocusedChange}
+                                                        numberOfMonths = {1}
+                                                        isOutsideRange = {() => false}
+                                                    />
+                                                </div>
+                                            </div>
+                                        )}
+                                    </Field>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                    
-                    <div className="row justify-content-center">
-                        <div className="form-group col">
-                            <label >Note</label>
-                            <textarea  className="form-control" name="note" placeholder="Add your notes" defaultValue={this.state.note}/>
-                        </div>
-                        <div className="form-group col">
-                            <label>Program</label>
-                            <input type="text" className="form-control" name="program" placeholder="Add your program" defaultValue={this.state.program}/>
-                        </div>
-                    </div>
-                    
-                    <button className="btn btn-primary" type="submit">{this.state.type}</button>
-                </form>
+
+                            <div className="row justify-content-center">
+                                    <Field name="note">
+                                        {(input, meta) => (
+                                            <div className="form-group col">
+                                                <label >Note</label>
+                                                <textarea {...input} className="form-control" placeholder="Add your notes"/>
+                                            </div>
+                                        )}
+                                    </Field>
+                                <Field name="program">
+                                    {(input, meta) => (
+                                        <div className="form-group col">
+                                            <label>Program</label>
+                                            <input type="text" className="form-control"  placeholder="Add your program"/>
+                                        </div>
+                                    )}
+                                </Field>
+                            </div>
+
+                            <button className="btn btn-primary" type="submit">{this.state.type}</button>
+                        </form>
+                    )}
+                />
             </div>
         )
     }
@@ -100,7 +138,6 @@ class WeightEntryForm extends React.Component{
 const mapDispatchToProps = (dispatch) => bindActionCreators({startAddEntry, startEditEntry},dispatch);
 
 const mapStateToProps = (state, props) => {
-    console.log('fired');
     return {
         entry: state.entries.find(entry => entry.id == props.match.params.id) // probably need to redo model or parse to make this strongly-typed
     }
