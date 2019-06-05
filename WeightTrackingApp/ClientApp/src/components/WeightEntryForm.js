@@ -15,41 +15,37 @@ class WeightEntryForm extends React.Component{
     state = {
         //populate data when entry editing existing entry
         type: this.props.entry? 'Edit': 'Create',
-        id: this.props.entry? this.props.entry.id: undefined,
-        date : this.props.entry? moment(this.props.entry.date): moment(),
-        note: this.props.entry? this.props.entry.note.text: '',
-        weight: this.props.entry? this.props.entry.weight: '',
-        program: this.props.entry? this.props.entry.program.name: '',
-        calendarFocused: false
+        calendarFocused: false,
+        entry: {
+            id: this.props.entry? this.props.entry.id: undefined,
+            date : this.props.entry? moment(this.props.entry.date): moment(),
+            note: this.props.entry? this.props.entry.note.text: '',
+            weight: this.props.entry? this.props.entry.weight: '',
+            program: this.props.entry? this.props.entry.program.name: ''
+        }
     };
     //TODO: add actions and reducers to send submitted form data to store and send the same data to web api
 
-    onSubmitNewFormType = (e) => {
+    onSubmitNewFormType = (record) => {
+        console.log(this.state.entry.date);
         //an object containing values from final form
-        console.log(e);
-    };
-    
-    onSubmit = (e) => {
-        e.preventDefault();
         let entry = {
-            date: this.state.date,
-            weight: e.target.weight.value,
-            program: e.target.program.value,
-            note: e.target.note.value
-        };
-        
-        
+            date: record.date,
+            weight: record.weight,
+            program: record.program,
+            note: record.note
+        }
+
         if(this.state.type === 'Create') {
             this.props.startAddEntry({
                 ...entry
             });
         } else {
             this.props.startEditEntry({
-                id : this.props.entry.id,
                 ...entry
             })
         }
-        
+
         this.props.history.replace('/weight-data');
     };
     
@@ -59,12 +55,15 @@ class WeightEntryForm extends React.Component{
     
     mustBeNumber = value => 
         isNaN(value)?`Should be a number`: undefined;
+    
+    required = value => value? undefined: 'Requires a program';
 
     render() {
         return(
             <div>
                 <Form
                     onSubmit={this.onSubmitNewFormType}
+                    initialValues = {this.state.entry}
                     render={({ handleSubmit, pristine, invalid }) => (
                         <form onSubmit={handleSubmit}>
                             <div className="row">
@@ -81,20 +80,22 @@ class WeightEntryForm extends React.Component{
                                                     className="form-control form-control-lg"
                                                     // defaultValue={this.state.weight}
                                                     placeholder="Weight"/>
-                                                {meta.touched && meta.error && <div className="alert alert-danger">{meta.error}</div>}
+                                                {meta.touched 
+                                                && meta.error 
+                                                && <div className="alert alert-danger">{meta.error}</div>}
                                             </div>
                                         )}
                                     </Field>
                                 </div>
                                 <div className="form-group col">
                                     <Field name="date">
-                                        {() => (
+                                        {({input}) => (
                                             <div>
                                                 <label>Date:</label>
                                                 <div>
                                                     <SingleDatePicker
                                                         block={true}
-                                                        date={this.state.date}
+                                                        date={input.value}
                                                         onDateChange={this.handleOnDateChange}
                                                         focused={this.state.calendarFocused}
                                                         onFocusChange={this.handleOnFocusedChange}
@@ -110,18 +111,25 @@ class WeightEntryForm extends React.Component{
 
                             <div className="row justify-content-center">
                                     <Field name="note">
-                                        {(input, meta) => (
+                                        {({input, meta}) => (
                                             <div className="form-group col">
                                                 <label >Note</label>
-                                                <textarea {...input} className="form-control" placeholder="Add your notes"/>
+                                                <textarea {...input} 
+                                                          className="form-control" 
+                                                          placeholder="Add your notes"/>
                                             </div>
                                         )}
                                     </Field>
-                                <Field name="program">
-                                    {(input, meta) => (
+                                <Field name="program" validate={this.required}>
+                                    {({input, meta}) => (
                                         <div className="form-group col">
                                             <label>Program</label>
-                                            <input type="text" className="form-control"  placeholder="Add your program"/>
+                                            <input type="text" {...input} 
+                                                   className="form-control"  
+                                                   placeholder="Add your program"/>
+                                            {meta.touched 
+                                            && meta.error 
+                                            && <div className='alert alert-danger'>{meta.error}</div>}
                                         </div>
                                     )}
                                 </Field>
