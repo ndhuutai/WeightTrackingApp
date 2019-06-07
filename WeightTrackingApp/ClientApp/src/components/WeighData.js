@@ -11,9 +11,12 @@ import {setEntries, startDeleteEntry} from "../actions/WeightEntry";
 class WeighData extends React.Component{
     
     componentDidMount() {
-        axios.get('/api/weightentries')
-            .then(response => this.props.setEntries(response.data))
-            .catch(err => console.log(err));
+        //if there's currently no entry in redux state
+        if(this.props.entries.length === 0) {
+            axios.get('/api/weightentries')
+                .then(response => this.props.setEntries(response.data))
+                .catch(err => console.log(err));
+        }
     }
 
     onClick = () => {
