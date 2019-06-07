@@ -1,31 +1,30 @@
 import React from 'react';
 import moment from 'moment';
-import {Button, Icon} from "semantic-ui-react";
+import {Button, Icon, Table} from "semantic-ui-react";
 import { Link } from "react-router-dom";
 
 
 export default ({entries, onDelete}) => (
-  <div className="table-responsive">
-      <table className="table table-dark table-hover">
-          <thead>
-          <tr>
-              <th>No.</th>
-              <th>Weight</th>
-              <th>Date</th>
-              <th>Program</th>
-              <th>Notes</th>
-              <th>Actions</th>
-          </tr>
-          </thead>
-          <tbody>
+      <Table sortable celled textAlign='center' inverted verticalAlign='middle' unstackable striped>
+          <Table.Header>
+          <Table.Row>
+              <Table.HeaderCell>No.</Table.HeaderCell>
+              <Table.HeaderCell>Weight</Table.HeaderCell>
+              <Table.HeaderCell>Date</Table.HeaderCell>
+              <Table.HeaderCell>Program</Table.HeaderCell>
+              <Table.HeaderCell>Notes</Table.HeaderCell>
+              <Table.HeaderCell>Actions</Table.HeaderCell>
+          </Table.Row>
+          </Table.Header>
+          <Table.Body>
           {entries.map((entry, index) => 
-              <tr key={index}>
-                  <td>{index + 1 }</td>
-                  <td>{entry.weight}</td>
-                  <td>{moment(entry.date).format('MM/DD/YYYY')}</td>
-                  <td>{entry.program.name}</td>
-                  <td>{entry.note.text}</td>
-                  <td>
+              <Table.Row key={index}>
+                  <Table.Cell>{index + 1 }</Table.Cell>
+                  <Table.Cell>{entry.weight}</Table.Cell>
+                  <Table.Cell>{moment(entry.date).format('MM/DD/YYYY')}</Table.Cell>
+                  <Table.Cell>{entry.program.name}</Table.Cell>
+                  <Table.Cell>{entry.note.text}</Table.Cell>
+                  <Table.Cell>
                       <Link to={`/weight-entry-form/${entry.id}`}>
                           <Button animated compact size="tiny">
                               <Button.Content visible>Edit</Button.Content>
@@ -40,10 +39,9 @@ export default ({entries, onDelete}) => (
                               <Icon name="delete"/>
                           </Button.Content>
                       </Button>
-                  </td>
-              </tr>
+                  </Table.Cell>
+              </Table.Row>
           )}
-          </tbody>
-      </table>
-  </div>  
+          </Table.Body>
+      </Table>
 );

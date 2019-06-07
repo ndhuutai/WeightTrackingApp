@@ -42,7 +42,8 @@ class WeightEntryForm extends React.Component{
             });
         } else {
             this.props.startEditEntry({
-                ...entry
+                ...entry,
+                id: this.state.entry.id
             })
         }
 
