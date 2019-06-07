@@ -20,10 +20,12 @@
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
     <Content Remove="$(SpaRoot)**" />
     <Content Include="ClientApp\src\actions\WeightEntry.js" />
+    <Content Include="ClientApp\src\actions\WeightEntryFilters.js" />
     <Content Include="ClientApp\src\components\WeighData.js" />
     <Content Include="ClientApp\src\components\WeightEntriesTable.js" />
     <Content Include="ClientApp\src\components\WeightEntryForm.js" />
     <Content Include="ClientApp\src\reducers\WeightEntries.js" />
+    <Content Include="ClientApp\src\reducers\WeightEntriesFilters.js" />
     <None Remove="$(SpaRoot)**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
   </ItemGroup>
