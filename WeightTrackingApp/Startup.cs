@@ -29,7 +29,7 @@ namespace WeightTrackingApp
                     {
                         options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
                     });
-            services.AddScoped<IDataRepository<WeightEntry>, WeightEntriesRepository>();
+            services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
             services.AddDbContextPool<WeightTrackingDbContext>(
                 options =>
                 options.UseMySql(Configuration.GetConnectionString("WeightTrackingDb"))

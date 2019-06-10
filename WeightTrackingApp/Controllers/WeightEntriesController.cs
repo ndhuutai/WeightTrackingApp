@@ -11,22 +11,22 @@ namespace WeightTrackingApp.Controllers
     [ApiController]
     public class WeightEntriesController : ControllerBase
     {
-        private readonly IDataRepository<WeightEntry> _dataRepository;
+        private readonly IRepositoryWrapper _repositoryWrapper;
 
-        public WeightEntriesController(IDataRepository<WeightEntry> dataRepository)
+        public WeightEntriesController(IRepositoryWrapper repositoryWrapper)
         {
-            _dataRepository = dataRepository;
+            _repositoryWrapper = repositoryWrapper;
         }
         
-        [HttpGet]
+        [HttpGet] 
         public IEnumerable<WeightEntry> GetAll()
         {
-            return _dataRepository.GetAll();
+            return _repositoryWrapper.WeightEntries.FindAll().ToList();
         }
 
-        public IEnumerable<Program> GetAllProgram()
+        public IEnumerable<Models.Program> GetAllProgram()
         {
-            return new List<Program>();
+            return _repositoryWrapper.Program.FindAll().ToList();
         }
 
         [HttpGet("{program}")]
@@ -43,7 +43,7 @@ namespace WeightTrackingApp.Controllers
                 return BadRequest();
             }
 
-            var savedEntry = _dataRepository.Add(entry);
+            var savedEntry = _repositoryWrapper.WeightEntries.Add(entry);
             //if add op is not success
             if ( savedEntry == null)
             {
@@ -61,7 +61,7 @@ namespace WeightTrackingApp.Controllers
                 return BadRequest();
             }
 
-            _dataRepository.Update(entry);
+            _repositoryWrapper.WeightEntries.Update(entry);
 
             return Accepted();
         }
@@ -69,7 +69,7 @@ namespace WeightTrackingApp.Controllers
         [HttpDelete("{id}")]
         public IActionResult DeleteEntry(int id)
         {
-            _dataRepository.Delete(id);
+            _repositoryWrapper.WeightEntries.Delete(id);
 
             return Ok();
         }
