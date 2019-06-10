@@ -23,12 +23,7 @@ namespace WeightTrackingApp.Controllers
         {
             return _repositoryWrapper.WeightEntries.FindAll().ToList();
         }
-
-        public IEnumerable<Models.Program> GetAllProgram()
-        {
-            return _repositoryWrapper.Program.FindAll().ToList();
-        }
-
+        
         [HttpGet("{program}")]
 //        public IEnumerable<WeightEntry> GetByProgram(string program)
 //        {
