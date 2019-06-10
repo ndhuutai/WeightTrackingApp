@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using WeightTrackingApp.Models;
 using WeightTrackingApp.Models.Repository;
 
@@ -21,14 +22,17 @@ namespace WeightTrackingApp.Controllers
         [HttpGet] 
         public IEnumerable<WeightEntry> GetAll()
         {
-            return _repositoryWrapper.WeightEntries.FindAll().ToList();
+            return _repositoryWrapper.WeightEntries.FindAll()
+                .Include(w => w.Note)
+                .Include(w => w.Program)
+                .ToList();
         }
         
         [HttpGet("{program}")]
-//        public IEnumerable<WeightEntry> GetByProgram(string program)
-//        {
-//            return _dataRepository.GetByProgram(program);
-//        }
+        public IEnumerable<WeightEntry> GetByProgram(string program)
+        {
+            return _repositoryWrapper.WeightEntries.FindByCondition(w => w.Program.Name == program).ToList();
+        }
 
         [HttpPost]
         public IActionResult PostEntry(WeightEntry entry)

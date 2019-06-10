@@ -35,7 +35,7 @@ class WeighData extends React.Component {
                     <Label>
                         <Icon name='filter'/>
                         Filters: 
-                        <Filter/>
+                        <Filter />
                     </Label>
                 </div>
                 <div className='row'>

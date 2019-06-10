@@ -5,6 +5,7 @@ using WeightTrackingApp.Models.Repository;
 
 namespace WeightTrackingApp.Controllers
 {
+    [Route("api/[controller]")]
     [ApiController]
     public class ProgramController : ControllerBase
     {

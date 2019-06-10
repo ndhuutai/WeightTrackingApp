@@ -12,6 +12,15 @@ export default class WeightEntriesTable extends React.Component {
         direction: null
     };
     
+    componentWillReceiveProps(nextProps, nextContext) {
+        console.log(nextProps);
+
+        this.setState({
+            tableData: nextProps.entries
+        })
+    }
+
+
     handleSort = clickedColumn => () => {
       const { column, tableData, direction} = this.state;
       
