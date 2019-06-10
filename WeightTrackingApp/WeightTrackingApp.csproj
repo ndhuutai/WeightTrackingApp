@@ -21,6 +21,7 @@
     <Content Remove="$(SpaRoot)**" />
     <Content Include="ClientApp\src\actions\WeightEntry.js" />
     <Content Include="ClientApp\src\actions\WeightEntryFilters.js" />
+    <Content Include="ClientApp\src\components\Filter.js" />
     <Content Include="ClientApp\src\components\WeighData.js" />
     <Content Include="ClientApp\src\components\WeightEntriesTable.js" />
     <Content Include="ClientApp\src\components\WeightEntryForm.js" />

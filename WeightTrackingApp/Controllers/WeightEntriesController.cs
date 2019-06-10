@@ -3,6 +3,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WeightTrackingApp.Models;
+using WeightTrackingApp.Models.Repository;
 
 namespace WeightTrackingApp.Controllers
 {
@@ -22,12 +23,17 @@ namespace WeightTrackingApp.Controllers
         {
             return _dataRepository.GetAll();
         }
-        
-        [HttpGet("{program}")]
-        public IEnumerable<WeightEntry> GetByProgram(string program)
+
+        public IEnumerable<Program> GetAllProgram()
         {
-            return _dataRepository.GetByProgram(program);
+            return new List<Program>();
         }
+
+        [HttpGet("{program}")]
+//        public IEnumerable<WeightEntry> GetByProgram(string program)
+//        {
+//            return _dataRepository.GetByProgram(program);
+//        }
 
         [HttpPost]
         public IActionResult PostEntry(WeightEntry entry)

@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using WeightTrackingApp.Models;
+using WeightTrackingApp.Models.Repository;
 
 namespace WeightTrackingApp
 {

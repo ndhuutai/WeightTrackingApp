@@ -1,43 +1,21 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using Microsoft.EntityFrameworkCore;
-using WeightTrackingApp.Models.Repository;
 
-namespace WeightTrackingApp.Models
+namespace WeightTrackingApp.Models.Repository
 {
-    class WeightEntriesRepository : IDataRepository<WeightEntry>
+    public class WeightRepository : DataRepository<WeightEntry>, IWeightRepository
     {
         private readonly WeightTrackingDbContext _dbContext;
 
-        public WeightEntriesRepository(WeightTrackingDbContext dbContext)
+        public WeightRepository(WeightTrackingDbContext dbContext) : base(dbContext)
         {
             _dbContext = dbContext;
         }
 
-        //save all tracked changes and return the number of entities.
-        public IEnumerable<WeightEntry> GetAll()
+        public override WeightEntry Add(WeightEntry entity)
         {
-            var results = _dbContext.WeightEntries
-                .Include(w => w.Note)
-                .Include(w => w.Program)
-                .ToList();
-
-            return results;
-        }
-
-        public IEnumerable<WeightEntry> GetByProgram(string program)
-        {
-            return _dbContext.WeightEntries
-                .Where(w => w.Program.Name.ToLower().Contains(program.ToLower()))
-                .Include(w => w.Program)
-                .ToList();
-        }
-
-        public WeightEntry Add(WeightEntry entity)
-        {
-            // find existing program in db
+            // find existing program in DB
             var program = _dbContext.Programs.FirstOrDefault(p => String.Equals(p.Name, entity.Program.Name));
 
             //if there's already a program with the same name then
@@ -47,24 +25,25 @@ namespace WeightTrackingApp.Models
                 entity.ProgramId = program.Id;
                 entity.Program = program;
             }
-
-            //get tracked entity
+            
+            // get the tracked entity after adding (that has been updated thus far)
             var trackedEntity = _dbContext.WeightEntries.Add(entity);
             
-            //save here to get generatedid for the entry
+            //save changes to get generatedId for the entry
+            //if no changes/addtion are done then there's an issue
             if (_dbContext.SaveChanges() < 1)
             {
                 return null;
             }
             
-            //update note's info once entity's id has been populated.
+            //update note's info once entity's id has been generated
             trackedEntity.Entity.Note.WeightEntryId = entity.Id;
             
             _dbContext.SaveChanges();
             return trackedEntity.Entity;
         }
 
-        public bool Update(WeightEntry entity)
+        public override bool Update(WeightEntry entity)
         {
             //find existing program in db
             var program = _dbContext.Programs.FirstOrDefault(p => String.Equals(p.Name, entity.Program.Name));
@@ -79,27 +58,33 @@ namespace WeightTrackingApp.Models
             dbEntity.Note.Text = entity.Note.Text;
             dbEntity.Weight = entity.Weight;
 
+            //if program doesn't exist then add the new program info
             if (program == null)
             {
                 var trackedEntity = _dbContext.Programs.Add(entity.Program);
                 dbEntity.Program = trackedEntity.Entity;
+                dbEntity.ProgramId = trackedEntity.Entity.Id;
+            } // otherwise change to the program that also happens to exist in the db
+            else
+            {
+                dbEntity.Program = program;
+                dbEntity.ProgramId = program.Id;
             }
-            
-            //user shouldn't be able to change date
+
             _dbContext.SaveChanges();
             return true;
         }
 
-        public bool Delete(int id)
+        public override bool Delete(int id)
         {
-             var dbEntity = _dbContext.WeightEntries.FirstOrDefault(w => w.Id == id);
+            var dbEntity = _dbContext.WeightEntries.FirstOrDefault(w => w.Id == id);
 
-             if (dbEntity == null) return false;
+            if (dbEntity == null) return false;
 
-             _dbContext.WeightEntries.Remove(dbEntity);
+            _dbContext.WeightEntries.Remove(dbEntity);
 
-             _dbContext.SaveChanges();
-             return true;
+            _dbContext.SaveChanges();
+            return true;
         }
     }
 }
