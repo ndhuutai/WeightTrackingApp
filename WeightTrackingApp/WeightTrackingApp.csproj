@@ -19,12 +19,14 @@
   <ItemGroup>
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
     <Content Remove="$(SpaRoot)**" />
+    <Content Include="ClientApp\src\actions\Program.js" />
     <Content Include="ClientApp\src\actions\WeightEntry.js" />
     <Content Include="ClientApp\src\actions\WeightEntryFilters.js" />
     <Content Include="ClientApp\src\components\Filter.js" />
     <Content Include="ClientApp\src\components\WeighData.js" />
     <Content Include="ClientApp\src\components\WeightEntriesTable.js" />
     <Content Include="ClientApp\src\components\WeightEntryForm.js" />
+    <Content Include="ClientApp\src\reducers\Program.js" />
     <Content Include="ClientApp\src\reducers\WeightEntries.js" />
     <Content Include="ClientApp\src\reducers\WeightEntriesFilters.js" />
     <None Remove="$(SpaRoot)**" />

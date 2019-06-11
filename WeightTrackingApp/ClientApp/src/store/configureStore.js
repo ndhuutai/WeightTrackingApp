@@ -2,10 +2,12 @@ import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
 import thunk from 'redux-thunk';
 import { connectRouter, routerMiddleware } from 'connected-react-router'
 import entriesReducer from '../reducers/WeightEntries';
+import programsReducer from '../reducers/Program';
 
 export default (history, initialState) => {
   const reducers = {
-    entries: entriesReducer
+    entries: entriesReducer,
+    programs: programsReducer
   };
 
   const middleware = [
