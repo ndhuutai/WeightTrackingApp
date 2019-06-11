@@ -1,3 +1,4 @@
 export const setPrograms = (programs) => ({
-    type: 'SET_PROGRAMS'
+    type: 'SET_PROGRAMS',
+    programs
 });

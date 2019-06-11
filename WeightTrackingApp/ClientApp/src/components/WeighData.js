@@ -5,6 +5,8 @@ import axios from 'axios';
 import WeightEntriesTable from "./WeightEntriesTable";
 import {bindActionCreators} from "redux";
 import {setEntries, startDeleteEntry} from "../actions/WeightEntry";
+import { setPrograms } from '../actions/Program';
+
 import Filter from './Filter';
 
 
@@ -16,6 +18,10 @@ class WeighData extends React.Component {
             axios.get('/api/weightentries')
                 .then(response => this.props.setEntries(response.data))
                 .catch(err => console.log(err));
+            
+            axios.get('/api/programs')
+                .then(response => this.props.setPrograms(response.data))
+                .then(err => console.log(err));
         }
     }
 
@@ -56,10 +62,11 @@ class WeighData extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-    entries: state.entries
+    entries: state.entries,
+    programs: state.programs
 });
 
-const mapDispatchToProps = (dispatch) => bindActionCreators({setEntries, startDeleteEntry}, dispatch);
+const mapDispatchToProps = (dispatch) => bindActionCreators({setEntries, startDeleteEntry, setPrograms}, dispatch);
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(WeighData);

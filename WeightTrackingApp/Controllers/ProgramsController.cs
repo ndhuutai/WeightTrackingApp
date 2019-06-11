@@ -7,11 +7,11 @@ namespace WeightTrackingApp.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProgramController : ControllerBase
+    public class ProgramsController : ControllerBase
     {
-        private readonly RepositoryWrapper _repositoryWrapper;
+        private readonly IRepositoryWrapper _repositoryWrapper;
 
-        public ProgramController(RepositoryWrapper repositoryWrapper)
+        public ProgramsController(IRepositoryWrapper repositoryWrapper)
         {
             _repositoryWrapper = repositoryWrapper;
         }
