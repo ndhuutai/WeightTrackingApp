@@ -39,7 +39,7 @@ namespace WeightTrackingApp.Models.Repository
 
         public void Save()
         {
-            throw new System.NotImplementedException();
+            _dbContext.SaveChanges();
         }
     }
 }

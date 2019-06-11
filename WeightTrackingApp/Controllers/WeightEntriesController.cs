@@ -28,10 +28,13 @@ namespace WeightTrackingApp.Controllers
                 .ToList();
         }
         
-        [HttpGet("{program}")]
-        public IEnumerable<WeightEntry> GetByProgram(string program)
+        [HttpGet("program/{id}")]
+        public IEnumerable<WeightEntry> GetByProgram(int id)
         {
-            return _repositoryWrapper.WeightEntries.FindByCondition(w => w.Program.Name == program).ToList();
+            return _repositoryWrapper.WeightEntries.FindByCondition(w => w.Program.Id == id)
+                .Include(w => w.Program)
+                .Include(w => w.Note)
+                .ToList();
         }
 
         [HttpPost]
