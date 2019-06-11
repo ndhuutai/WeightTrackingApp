@@ -10,7 +10,13 @@ export default class Filter extends React.Component {
                 selection
                 search
                 noResultsMessage='No result found'
-                options={[]}
+                options={this.props.programs.map(program => {
+                    return {
+                        key: program.id,
+                        text: program.name,
+                        value: program.name
+                    }
+                })} 
             />
         );
     }
