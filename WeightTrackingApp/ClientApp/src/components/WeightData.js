@@ -14,15 +14,13 @@ class WeighData extends React.Component {
 
     componentDidMount() {
         //if there's currently no entry in redux state
-        if (this.props.entries.length === 0) {
-            axios.get('/api/weightentries')
-                .then(response => this.props.setEntries(response.data))
-                .catch(err => console.log(err));
-            
-            axios.get('/api/programs')
-                .then(response => this.props.setPrograms(response.data))
-                .catch(err => console.log(err));
-        }
+        axios.get('/api/weightentries')
+            .then(response => this.props.setEntries(response.data))
+            .catch(err => console.log(err));
+        
+        axios.get('/api/programs')
+            .then(response => this.props.setPrograms(response.data))
+            .catch(err => console.log(err));
     }
 
     onClick = () => {
@@ -50,9 +48,12 @@ class WeighData extends React.Component {
     // };
     
     handleApplyFilters = ({program, startDate, endDate}) => {
-        console.log(program);
         if(program) {
-            axios.get(`/api/weightentries/program/${program}?startDate=${startDate.format()}&endDate=${endDate.format()}`)
+            axios.get(`/api/weightentries/program/${program}?${startDate?`startDate=${startDate.format()}`:''}${endDate?`&endDate=${endDate.format()}`:''}`)
+                .then(response => this.props.setEntries(response.data))
+                .catch(err => console.log(err));
+        } else if(!program && (startDate || endDate)) {
+            axios.get(`/api/weightentries/bydate?${startDate?`startDate=${startDate.format()}&`:''}${endDate?`endDate=${endDate.format()}`:''}`)
                 .then(response => this.props.setEntries(response.data))
                 .catch(err => console.log(err));
         } else {

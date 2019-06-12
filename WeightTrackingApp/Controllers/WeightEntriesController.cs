@@ -30,10 +30,21 @@ namespace WeightTrackingApp.Controllers
         }
         
         [HttpGet("program/{id:int}")]
-        public IEnumerable<WeightEntry> GetByProgram(int id, DateTime startDate, DateTime endDate)
+        public IEnumerable<WeightEntry> GetByProgram(int id, DateTime? startDate, DateTime? endDate)
         {
             return _repositoryWrapper.WeightEntries.FindByCondition(w => w.Program.Id == id)
-                .Where(w => w.Date >= startDate && w.Date <= endDate)
+                .Where(w => startDate == null || w.Date >= startDate)
+                .Where(w => endDate == null || w.Date <= endDate)
+                .Include(w => w.Program)
+                .Include(w => w.Note)
+                .ToList();
+        }
+
+        [HttpGet("bydate")]
+        public IEnumerable<WeightEntry> GetByDate(DateTime? startDate, DateTime? endDate)
+        {
+            return _repositoryWrapper.WeightEntries.FindByCondition(w =>
+                    (startDate == null || w.Date >= startDate) && (endDate == null || w.Date <= endDate))
                 .Include(w => w.Program)
                 .Include(w => w.Note)
                 .ToList();
