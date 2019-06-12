@@ -11,11 +11,14 @@ export default class Filter extends React.Component {
         startDateId: 'nobody: ...',
         endDateId: 'Me: some random string',
         calendarFocused: false,
+        program: ''
     };
     
     handleOnChange = (e, data) => {
         //getting the id from the selected program and pass it up
-        this.props.handleProgramFilter(data.value);
+        this.setState({
+            program: data.value
+        })
     };
     
     handleOnDatesChange = ({ startDate, endDate }) => {
@@ -28,10 +31,17 @@ export default class Filter extends React.Component {
     handleClear = () => this.setState({
         startDate: undefined,
         endDate: undefined,
-        startDateId: 'nobody: ...',
-        endDateId: 'Me: some random string',
         calendarFocused: false,
-    })
+        program: ''
+    });
+    
+    handleApply = () => {
+        this.props.applyFilters({
+            startDate: this.state.startDate,
+            endDate: this.state.endDate,
+            program: this.state.program
+        })
+    };
     
     render() {
         return (
@@ -64,7 +74,7 @@ export default class Filter extends React.Component {
                         isOutsideRange={() => false}
                         className='col'
                     />
-                    <Button primary className='m-1 p-2'>Apply</Button>
+                    <Button primary className='m-1 p-2' onClick={this.handleApply}>Apply</Button>
                     <Button primary negative className='m-1 p-2' onClick={this.handleClear}>Clear</Button>
                 </div>
             </div>

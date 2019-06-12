@@ -72,19 +72,21 @@ export default class WeightEntriesTable extends React.Component {
                             <Table.Cell>{entry.note.text}</Table.Cell>
                             <Table.Cell>
                                 <Link to={`/weight-entry-form/${entry.id}`}>
-                                    <Button animated compact size="tiny">
-                                        <Button.Content visible>Edit</Button.Content>
-                                        <Button.Content hidden>
-                                            <Icon name="edit"/>
-                                        </Button.Content>
-                                    </Button>
+                                    {/*<Button animated compact size="tiny">*/}
+                                    {/*    <Button.Content visible>Edit</Button.Content>*/}
+                                    {/*    <Button.Content hidden>*/}
+                                    {/*        <Icon name="edit"/>*/}
+                                    {/*    </Button.Content>*/}
+                                    {/*</Button>*/}
+                                    <Button>Edit</Button>
                                 </Link>
-                                <Button animated compact size="tiny" onClick={() => this.props.onDelete(entry.id)}>
-                                    <Button.Content visible>Delete</Button.Content>
-                                    <Button.Content hidden>
-                                        <Icon name="delete"/>
-                                    </Button.Content>
-                                </Button>
+                                    {/*<Button animated compact size="tiny" onClick={() => this.props.onDelete(entry.id)}>*/}
+                                    {/*    <Button.Content visible>Delete</Button.Content>*/}
+                                    {/*    <Button.Content hidden>*/}
+                                    {/*        <Icon name="delete"/>*/}
+                                    {/*    </Button.Content>*/}
+                                    {/*</Button>*/}
+                                    <Button onClick={() => this.props.onDelete(entry.id)}>Delete</Button>
                             </Table.Cell>
                         </Table.Row>
                     )}
