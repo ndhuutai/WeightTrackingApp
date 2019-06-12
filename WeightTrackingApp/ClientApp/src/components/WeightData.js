@@ -49,8 +49,17 @@ class WeighData extends React.Component {
     //     }
     // };
     
-    handleApplyFilters = (filters) => {
-        console.log(filters);
+    handleApplyFilters = ({program, startDate, endDate}) => {
+        console.log(program);
+        if(program) {
+            axios.get(`/api/weightentries/program/${program}?startDate=${startDate.format()}&endDate=${endDate.format()}`)
+                .then(response => this.props.setEntries(response.data))
+                .catch(err => console.log(err));
+        } else {
+            axios.get(`/api/weightentries`)
+                .then(response => this.props.setEntries(response.data))
+                .catch(err => console.log(err));
+        }
     };
 
     render() {

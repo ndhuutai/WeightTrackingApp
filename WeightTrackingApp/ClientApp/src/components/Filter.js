@@ -28,12 +28,18 @@ export default class Filter extends React.Component {
     handleOnFocusChange = focusedInput => this.setState({calendarFocused: focusedInput});
     
     //TODO: this should set a call up in the parent component to get all data
-    handleClear = () => this.setState({
-        startDate: undefined,
-        endDate: undefined,
-        calendarFocused: false,
-        program: ''
-    });
+    handleClear = async () => {
+        //setting state is async in nature. Had to await here to make sure state
+        //is reset
+        await this.setState({
+            startDate: undefined,
+            endDate: undefined,
+            calendarFocused: false,
+            program: ''
+        });
+        //call to reset data
+        this.handleApply();
+    };
     
     handleApply = () => {
         this.props.applyFilters({
@@ -52,7 +58,6 @@ export default class Filter extends React.Component {
                         selection
                         search
                         noResultsMessage='No result found'
-                        clearable
                         options={this.props.programs.map(program => {
                             return {
                                 key: program.id,
@@ -60,8 +65,9 @@ export default class Filter extends React.Component {
                                 value: program.id
                             }
                         })}
+                        value={this.state.program}
                         onChange={this.handleOnChange}
-                        className='col'
+                        className='col text-center'
                     />
                     <DateRangePicker
                         startDate={this.state.startDate}

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
@@ -28,10 +29,11 @@ namespace WeightTrackingApp.Controllers
                 .ToList();
         }
         
-        [HttpGet("program/{id}")]
-        public IEnumerable<WeightEntry> GetByProgram(int id)
+        [HttpGet("program/{id:int}")]
+        public IEnumerable<WeightEntry> GetByProgram(int id, DateTime startDate, DateTime endDate)
         {
             return _repositoryWrapper.WeightEntries.FindByCondition(w => w.Program.Id == id)
+                .Where(w => w.Date >= startDate && w.Date <= endDate)
                 .Include(w => w.Program)
                 .Include(w => w.Note)
                 .ToList();
