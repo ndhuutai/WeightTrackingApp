@@ -34,19 +34,23 @@ class WeighData extends React.Component {
         this.props.startDeleteEntry(id);
     };
     
-    handleProgramFilter = (program) => {
-        //if there's a selected program to filter then get those
-        if(program) {
-            axios.get(`/api/weightentries/program/${program}`)
-                .then(response => this.props.setEntries(response.data))
-                .catch(err => console.log(err));
-        } 
-        // otherwise get all data when there is no filter or filter is empty
-        else {
-            axios.get('/api/weightentries')
-                .then(response => this.props.setEntries(response.data))
-                .catch(err => console.log(err));
-        }
+    // handleProgramFilter = (program) => {
+    //     //if there's a selected program to filter then get those
+    //     if(program) {
+    //         axios.get(`/api/weightentries/program/${program}`)
+    //             .then(response => this.props.setEntries(response.data))
+    //             .catch(err => console.log(err));
+    //     } 
+    //     // otherwise get all data when there is no filter or filter is empty
+    //     else {
+    //         axios.get('/api/weightentries')
+    //             .then(response => this.props.setEntries(response.data))
+    //             .catch(err => console.log(err));
+    //     }
+    // };
+    
+    handleApplyFilters = (filters) => {
+        console.log(filters);
     };
 
     render() {
@@ -56,7 +60,7 @@ class WeighData extends React.Component {
                     <Label>
                         <Icon name='filter'/>
                         Filters: 
-                        <Filter programs={this.props.programs} handleProgramFilter={this.handleProgramFilter}/>
+                        <Filter programs={this.props.programs} applyFilters={this.handleApplyFilters}/>
                     </Label>
                 </div>
                 <div className='row'>
