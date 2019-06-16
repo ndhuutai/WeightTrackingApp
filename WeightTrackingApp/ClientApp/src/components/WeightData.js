@@ -1,14 +1,13 @@
-import React from 'react';
+import React, {Fragment} from 'react';
 import {connect} from "react-redux";
-import {Icon, Label} from "semantic-ui-react";
+import {Icon, Label, Pagination} from "semantic-ui-react";
 import axios from 'axios';
 import WeightEntriesTable from "./WeightEntriesTable";
 import {bindActionCreators} from "redux";
 import {setEntries, startDeleteEntry} from "../actions/WeightEntry";
-import { setPrograms } from '../actions/Program';
+import {setPrograms} from '../actions/Program';
 
 import Filter from './Filter';
-
 
 class WeighData extends React.Component {
 
@@ -17,7 +16,7 @@ class WeighData extends React.Component {
         axios.get('/api/weightentries')
             .then(response => this.props.setEntries(response.data))
             .catch(err => console.log(err));
-        
+
         axios.get('/api/programs')
             .then(response => this.props.setPrograms(response.data))
             .catch(err => console.log(err));
@@ -31,14 +30,14 @@ class WeighData extends React.Component {
     handleOnDelete = (id) => {
         this.props.startDeleteEntry(id);
     };
-    
+
     handleApplyFilters = ({program, startDate, endDate}) => {
-        if(program) {
-            axios.get(`/api/weightentries/program/${program}?${startDate?`startDate=${startDate.format()}`:''}${endDate?`&endDate=${endDate.format()}`:''}`)
+        if (program) {
+            axios.get(`/api/weightentries/program/${program}?${startDate ? `startDate=${startDate.format()}` : ''}${endDate ? `&endDate=${endDate.format()}` : ''}`)
                 .then(response => this.props.setEntries(response.data))
                 .catch(err => console.log(err));
-        } else if(!program && (startDate || endDate)) {
-            axios.get(`/api/weightentries/bydate?${startDate?`startDate=${startDate.format()}&`:''}${endDate?`endDate=${endDate.format()}`:''}`)
+        } else if (!program && (startDate || endDate)) {
+            axios.get(`/api/weightentries/bydate?${startDate ? `startDate=${startDate.format()}` : ''}${endDate ? `&endDate=${endDate.format()}` : ''}`)
                 .then(response => this.props.setEntries(response.data))
                 .catch(err => console.log(err));
         } else {
@@ -48,18 +47,29 @@ class WeighData extends React.Component {
         }
     };
 
+    handlePageChange = (e, data) => {
+        //getting active page
+        console.log(data);
+    };
+
     render() {
         return (
-            <div className='container'>
+            <Fragment>
                 <div className='row justify-content-end'>
                     <Label>
                         <Icon name='filter'/>
-                        Filters: 
+                        Filters:
                         <Filter programs={this.props.programs} applyFilters={this.handleApplyFilters}/>
                     </Label>
                 </div>
                 <div className='row'>
                     <WeightEntriesTable {...this.props} onDelete={this.handleOnDelete}/>
+                </div>
+                <div className='row'>
+                    <Pagination defaultActivePage={1}
+                                totalPages={5}
+                                onPageChange={this.handlePageChange}
+                    />
                 </div>
                 <div className='row'>
                     <button
@@ -70,7 +80,7 @@ class WeighData extends React.Component {
                         <Icon name='plus square'/>Add Entry
                     </button>
                 </div>
-            </div>
+            </Fragment>
         )
     }
 }
