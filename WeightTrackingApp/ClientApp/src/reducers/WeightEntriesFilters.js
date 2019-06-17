@@ -9,7 +9,7 @@ export default (state = defaultState, action) => {
         case 'SET_PROGRAM':
             return {
                 ...state,
-                program: action.program
+                programId: action.programId
             };
         case 'SET_START_DATE':
             return {
