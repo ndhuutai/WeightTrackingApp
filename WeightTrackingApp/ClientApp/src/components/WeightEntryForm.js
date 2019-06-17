@@ -34,7 +34,7 @@ class WeightEntryForm extends React.Component{
             weight: record.weight,
             program: record.program,
             note: record.note
-        }
+        };
 
         if(this.state.type === 'Create') {
             this.props.startAddEntry({
@@ -148,7 +148,7 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({startAddEntry, star
 
 const mapStateToProps = (state, props) => {
     return {
-        entry: state.entries.find(entry => entry.id == props.match.params.id) // probably need to redo model or parse to make this strongly-typed
+        entry: state.entries.find(entry => entry.id == props.match.params.id) // implicitly convert since one is number and the other is string
     }
     
 };

@@ -1,7 +1,7 @@
 const defaultState = {
-  program: undefined,
-  startDate: undefined,
-  endDate: undefined
+  program: '',
+  startDate: '',
+  endDate: ''
 };
 
 export default (state = defaultState, action) => {

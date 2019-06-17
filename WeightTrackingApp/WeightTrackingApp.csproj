@@ -29,6 +29,7 @@
     <Content Include="ClientApp\src\reducers\Program.js" />
     <Content Include="ClientApp\src\reducers\WeightEntries.js" />
     <Content Include="ClientApp\src\reducers\WeightEntriesFilters.js" />
+    <Content Include="ClientApp\src\selectors\WeightEntries.js" />
     <None Remove="$(SpaRoot)**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
   </ItemGroup>

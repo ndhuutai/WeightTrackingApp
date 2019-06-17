@@ -10,7 +10,7 @@ export default class Filter extends React.Component {
         endDate: undefined,
         startDateId: 'nobody: ...',
         endDateId: 'Me: some random string',
-        calendarFocused: false,
+        calendarFocused: null,
         program: ''
     };
     
@@ -25,19 +25,22 @@ export default class Filter extends React.Component {
         this.setState({startDate, endDate})
     };
     
-    handleOnFocusChange = focusedInput => this.setState({calendarFocused: focusedInput});
+    handleOnFocusChange = focusedInput => {
+        console.log(focusedInput);
+        this.setState({calendarFocused: focusedInput})
+    };
     
     //TODO: this should set a call up in the parent component to get all data
     handleClear = async () => {
         //setting state is async in nature. Had to await here to make sure state
-        //is reset
+        //is resetFilters
         await this.setState({
             startDate: undefined,
             endDate: undefined,
-            calendarFocused: false,
+            calendarFocused: null,
             program: ''
         });
-        //call to reset data
+        //call to resetFilters data
         this.handleApply();
     };
     
@@ -78,7 +81,6 @@ export default class Filter extends React.Component {
                         focusedInput={this.state.calendarFocused}
                         onFocusChange={this.handleOnFocusChange}
                         isOutsideRange={() => false}
-                        className='col'
                     />
                     <Button primary className='m-1 p-2' onClick={this.handleApply}>Apply</Button>
                     <Button primary negative className='m-1 p-2' onClick={this.handleClear}>Clear</Button>

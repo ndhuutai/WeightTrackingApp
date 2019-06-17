@@ -6,10 +6,17 @@ import WeightEntriesTable from "./WeightEntriesTable";
 import {bindActionCreators} from "redux";
 import {setEntries, startDeleteEntry} from "../actions/WeightEntry";
 import {setPrograms} from '../actions/Program';
+import { setEndDate, setStartDate, setProgramFilter, resetFilters } from '../actions/WeightEntryFilters';
+import selectWeightEntries from '../selectors/WeightEntries';
+
 
 import Filter from './Filter';
 
 class WeighData extends React.Component {
+    
+    state = {
+        limit: 5
+    };
 
     componentDidMount() {
         //if there's currently no entry in redux state
@@ -32,6 +39,11 @@ class WeighData extends React.Component {
     };
 
     handleApplyFilters = ({program, startDate, endDate}) => {
+        
+        this.props.setProgramFilter(program);
+        this.props.setStartDate(startDate);
+        this.props.setEndDate(endDate);
+        
         if (program) {
             axios.get(`/api/weightentries/program/${program}?${startDate ? `startDate=${startDate.format()}` : ''}${endDate ? `&endDate=${endDate.format()}` : ''}`)
                 .then(response => this.props.setEntries(response.data))
@@ -86,11 +98,19 @@ class WeighData extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-    entries: state.entries,
+    entries: selectWeightEntries(state.entries, state.filters),
     programs: state.programs
 });
 
-const mapDispatchToProps = (dispatch) => bindActionCreators({setEntries, startDeleteEntry, setPrograms}, dispatch);
+const mapDispatchToProps = (dispatch) => bindActionCreators({
+    setEntries, 
+    startDeleteEntry, 
+    setPrograms,
+    setProgramFilter,
+    setStartDate,
+    setEndDate,
+    resetFilters
+}, dispatch);
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(WeighData);

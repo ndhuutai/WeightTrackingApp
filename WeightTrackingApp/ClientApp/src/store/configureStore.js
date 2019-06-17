@@ -3,11 +3,13 @@ import thunk from 'redux-thunk';
 import { connectRouter, routerMiddleware } from 'connected-react-router'
 import entriesReducer from '../reducers/WeightEntries';
 import programsReducer from '../reducers/Program';
+import filtersReducer from '../reducers/WeightEntriesFilters';
 
 export default (history, initialState) => {
   const reducers = {
     entries: entriesReducer,
-    programs: programsReducer
+    programs: programsReducer,
+    filters: filtersReducer
   };
 
   const middleware = [

@@ -1,18 +1,18 @@
-export const setProgram = (program) => ({
+export const setProgramFilter = (program = '') => ({
   type: 'SET_PROGRAM',
   program    
 });
 
-export const setStartDate = (startDate) => ({
+export const setStartDate = (startDate = undefined) => ({
     type: 'SET_START_DATE',
     startDate
 });
 
-export const setEndDate = (endDate) => ({
+export const setEndDate = (endDate = undefined) => ({
     type: 'SET_END_DATE',
     endDate
 });
 
-export const reset = () => ({
+export const resetFilters = () => ({
     type: 'RESET'
 });
