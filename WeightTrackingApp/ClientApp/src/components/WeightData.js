@@ -44,12 +44,22 @@ class WeighData extends React.Component {
         this.props.setStartDate(startDate);
         this.props.setEndDate(endDate);
         
+        const params = {
+            startDate : startDate ? startDate.format() : '',
+            endDate: endDate ? endDate.format() : ''
+        };
+        
         if (program) {
-            axios.get(`/api/weightentries/program/${program}?${startDate ? `startDate=${startDate.format()}` : ''}${endDate ? `&endDate=${endDate.format()}` : ''}`)
+            axios.get(`/api/weightentries/program/${program}`, {
+                params
+            })
                 .then(response => this.props.setEntries(response.data))
                 .catch(err => console.log(err));
+            
         } else if (!program && (startDate || endDate)) {
-            axios.get(`/api/weightentries/bydate?${startDate ? `startDate=${startDate.format()}` : ''}${endDate ? `&endDate=${endDate.format()}` : ''}`)
+            axios.get(`/api/weightentries/bydate`, {
+                params
+            })
                 .then(response => this.props.setEntries(response.data))
                 .catch(err => console.log(err));
         } else {

@@ -26,7 +26,6 @@ export default class Filter extends React.Component {
     };
     
     handleOnFocusChange = focusedInput => {
-        console.log(focusedInput);
         this.setState({calendarFocused: focusedInput})
     };
     
