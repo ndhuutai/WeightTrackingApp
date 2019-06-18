@@ -6,17 +6,13 @@ import WeightEntriesTable from "./WeightEntriesTable";
 import {bindActionCreators} from "redux";
 import {setEntries, startDeleteEntry} from "../actions/WeightEntry";
 import {setPrograms} from '../actions/Program';
-import { setEndDate, setStartDate, setProgramFilter, resetFilters } from '../actions/WeightEntryFilters';
+import { setEndDate, setStartDate, setProgramFilter, resetFilters, setLimit, setSkipAndTake } from '../actions/WeightEntryFilters';
 import selectWeightEntries from '../selectors/WeightEntries';
 
 
 import Filter from './Filter';
 
 class WeighData extends React.Component {
-    
-    state = {
-        limit: 5
-    };
 
     componentDidMount() {
         //if there's currently no entry in redux state
@@ -71,7 +67,7 @@ class WeighData extends React.Component {
 
     handlePageChange = (e, data) => {
         //getting active page
-        console.log(data);
+        this.props.setSkipAndTake((data.activePage - 1)  * this.props.filters.limit);
     };
 
     render() {
@@ -85,11 +81,11 @@ class WeighData extends React.Component {
                     </Label>
                 </div>
                 <div className='row'>
-                    <WeightEntriesTable {...this.props} onDelete={this.handleOnDelete}/>
+                    <WeightEntriesTable entries={this.props.entries} onDelete={this.handleOnDelete}/>
                 </div>
                 <div className='row'>
                     <Pagination defaultActivePage={1}
-                                totalPages={5}
+                                totalPages={this.props.totalPages}
                                 onPageChange={this.handlePageChange}
                     />
                 </div>
@@ -109,7 +105,9 @@ class WeighData extends React.Component {
 
 const mapStateToProps = (state) => ({
     entries: selectWeightEntries(state.entries, state.filters),
-    programs: state.programs
+    programs: state.programs,
+    filters: state.filters,
+    totalPages : Math.ceil(state.entries.length / state.filters.limit)
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
@@ -119,7 +117,9 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
     setProgramFilter,
     setStartDate,
     setEndDate,
-    resetFilters
+    resetFilters,
+    setSkipAndTake,
+    setLimit
 }, dispatch);
 
 
