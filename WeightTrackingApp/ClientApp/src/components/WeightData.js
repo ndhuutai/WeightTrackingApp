@@ -47,21 +47,25 @@ class WeighData extends React.Component {
         };
         
         let response;
-        
-        if (program) {
-            response = axios.get(`/api/weightentries/program/${program}`, {
-                params
-            })
-            
-        } else if (!program && (startDate || endDate)) {
-            response = axios.get(`/api/weightentries/bydate`, {
-                params
-            })
-        } else {
-            response = axios.get(`/api/weightentries`);
+
+        try {
+            if (program) {
+                response = axios.get(`/api/weightentries/program/${program}`, {
+                    params
+                })
+
+            } else if (!program && (startDate || endDate)) {
+                response = axios.get(`/api/weightentries/bydate`, {
+                    params
+                })
+            } else {
+                response = axios.get(`/api/weightentries`);
+            }
+        } catch (e) {
+            console.log(e);
         }
         
-        this.props.setEntries(response.data)
+        this.props.setEntries(response.data);
     };
 
     handlePageChange = (e, data) => {
