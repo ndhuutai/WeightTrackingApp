@@ -27,7 +27,6 @@ class WeightEntryForm extends React.Component{
     //TODO: add actions and reducers to send submitted form data to store and send the same data to web api
 
     onSubmitNewFormType = (record) => {
-        console.log(this.state.entry.date);
         //an object containing values from final form
         let entry = {
             date: record.date,

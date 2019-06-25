@@ -15,16 +15,17 @@ import Filter from './Filter';
 class WeighData extends React.Component {
 
     componentDidMount() {
-        //if there's currently no entry in redux state
+        //populate entries
         axios.get('/api/weightentries')
             .then(response => this.props.setEntries(response.data))
             .catch(err => console.log(err));
-
+        //populate programs
         axios.get('/api/programs')
             .then(response => this.props.setPrograms(response.data))
             .catch(err => console.log(err));
     }
 
+    //onClick handle for child component
     onClick = () => {
         this.props.history.push('/weight-entry-form');
     };
@@ -34,7 +35,7 @@ class WeighData extends React.Component {
         this.props.startDeleteEntry(id);
     };
 
-    handleApplyFilters = ({program, startDate, endDate}) => {
+    handleApplyFilters = async ({program, startDate, endDate}) => {
         
         this.props.setProgramFilter(program);
         this.props.setStartDate(startDate);
@@ -45,24 +46,22 @@ class WeighData extends React.Component {
             endDate: endDate ? endDate.format() : ''
         };
         
+        let response;
+        
         if (program) {
-            axios.get(`/api/weightentries/program/${program}`, {
+            response = axios.get(`/api/weightentries/program/${program}`, {
                 params
             })
-                .then(response => this.props.setEntries(response.data))
-                .catch(err => console.log(err));
             
         } else if (!program && (startDate || endDate)) {
-            axios.get(`/api/weightentries/bydate`, {
+            response = axios.get(`/api/weightentries/bydate`, {
                 params
             })
-                .then(response => this.props.setEntries(response.data))
-                .catch(err => console.log(err));
         } else {
-            axios.get(`/api/weightentries`)
-                .then(response => this.props.setEntries(response.data))
-                .catch(err => console.log(err));
+            response = axios.get(`/api/weightentries`);
         }
+        
+        this.props.setEntries(response.data)
     };
 
     handlePageChange = (e, data) => {
